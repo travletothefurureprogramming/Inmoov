@@ -34,7 +34,6 @@ def find_object(cls_name):
                 
                 return x_center, y_center, pixel_w
 
-        cv2.imshow("Mark's Vision Tracker", frame)
         
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
