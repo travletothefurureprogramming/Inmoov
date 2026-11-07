@@ -5,6 +5,8 @@ model = YOLO("yolov8m.pt")
 
 def find_object(cls_name):
     cap = cv2.VideoCapture(0)
+    
+    x_center, y_center, pixel_w = None, None, None
 
     while True:
         ret, frame = cap.read()
@@ -15,7 +17,7 @@ def find_object(cls_name):
         results = model(frame, verbose=False)
         result = results[0]
 
-        found = False
+        found_target = False
         for box in result.boxes:
             cls_id = int(box.cls[0])
             class_name = model.names[cls_id]
@@ -28,18 +30,19 @@ def find_object(cls_name):
 
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                 cv2.circle(frame, (x_center, y_center), 4, (0, 0, 255), -1)
-                
-                cv2.imshow("Mark's Vision Tracker", frame)
-                cv2.waitKey(1)
-                
-                return x_center, y_center, pixel_w
+                found_target = True
+                break  
             
         cv2.imshow("Mark's Vision Tracker", frame)
-
         
+        if found_target:
+            cap.release()
+            cv2.destroyAllWindows()
+            return x_center, y_center, pixel_w
+
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
+
     cap.release()
     cv2.destroyAllWindows()
     return None, None, None
-
