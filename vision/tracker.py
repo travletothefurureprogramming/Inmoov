@@ -38,7 +38,6 @@ def find_object(cls_name):
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
     cap.release()
-
+    cv2.destroyAllWindows()
     return None, None, None
 
-cv2.destroyAllWindows()
