@@ -1,7 +1,8 @@
 import json
 from audio import tts
-from tools import ik, uart
+from tools import ik, uart, search, system
 from vision import tracker
+from inteligence import inteligence
 
 L1 = 15.0
 L2 = 15.0
@@ -68,3 +69,13 @@ def proccess(command_input):
   if "speak" in command:
     text_ = command.get("speak")
     tts.speak(text_)
+
+  if "system" in command:
+     text_ = command.get("system")
+     tts.speak(f"The current system status is: CPU {system.cpu()} RAM {system.ram()}")
+
+  if "search" in command:
+    search_ = search.search_wiki(command.get("search"))
+    result = inteligence.summarize_text(search_)
+
+    tts.speak(result)
