@@ -1,5 +1,6 @@
 from vision.tracker import find_object
 from tools import ik
+from tools import uart
 
 L1 = 15.0
 L2 = 15.0
@@ -23,3 +24,5 @@ if pixel_w is not None:
 
     shoulder_degrees, elbow_degrees = ik.ik(X, Y, L1, L2)
     print("shoulder_degrees: ", shoulder_degrees, "elbow_degrees: ", elbow_degrees)
+
+    uart.send_command(f"shoulder_degrees: {round(shoulder_degrees, 2)} elbow_degrees: {round(elbow_degrees, 2)}")
